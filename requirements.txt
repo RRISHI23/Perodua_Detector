@@ -1,7 +1,6 @@
---only-binary=:all:
 streamlit==1.24.1
-ultralytics>=8.0.100
-torch>=1.12.0
-torchvision>=0.13.0
+ultralytics==8.0.104  # Compatible version
+torch>=1.12.0,<2.0.0
+torchvision>=0.13.0,<0.15.0
 numpy>=1.21.0
-Pillow==9.5.0
+Pillow>=10.0.0  # Use a newer compatible version
