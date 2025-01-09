@@ -107,21 +107,21 @@ if uploaded_file is not None:
             st.warning(f"⚠️ Detected as Unknown. Confidence level: {confidence * 100:.2f}%")
         elif class_id is not None:
             detected_class = YOLO_CLASSES[class_id]
-            st.write(f"🚗 Detected: **{detected_class}** with {confidence * 100:.2f}% confidence.")
+            st.write(f"🚗 Detected: **Perodua {detected_class}** with {confidence * 100:.2f}% confidence.")
 
             # Further classify for specific models
             if detected_class == "Alza":
                 st.write("🔍 Performing detailed classification for Alza...")
                 final_class, final_confidence = classify_car_model(file_path, alza_classification_model, CLASSIFICATION_CLASSES["alza"])
-                st.write(f"🔹 Final Classification: **{final_class}** with {final_confidence * 100:.2f}% confidence.")
+                st.write(f"🔹 Final Classification: **Perodua {final_class}** with {final_confidence * 100:.2f}% confidence.")
 
             elif detected_class == "Aruz":
                 st.write("🔍 Performing detailed classification for Aruz...")
                 final_class, final_confidence = classify_car_model(file_path, aruz_classification_model, CLASSIFICATION_CLASSES["aruz"])
-                st.write(f"🔹 Final Classification: **{final_class}** with {final_confidence * 100:.2f}% confidence.")
+                st.write(f"🔹 Final Classification: **Perodua {final_class}** with {final_confidence * 100:.2f}% confidence.")
 
             elif detected_class in ["Myvi", "Axia", "Bezza"]:
-                st.write(f"🔹 {detected_class} detected.")
+                st.write(f"🔹 Perodua {detected_class} detected.")
         else:
             st.warning(f"⚠️ No car detected. Confidence level: {confidence * 100:.2f}%")
 
