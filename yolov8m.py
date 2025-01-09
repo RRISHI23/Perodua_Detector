@@ -1,15 +1,14 @@
 import streamlit as st
 import os
-from PIL import Image
+from PIL import Image, ExifTags
 from ultralytics import YOLO
 import numpy as np
-import torch 
+import torch
 
-# Paths to models 
+# Paths to models
 yolo_model_path = "best.pt"  # YOLOv8 detection model
 alza_classification_model_path = "alzaxveloz.pt"  # Alza classification model
 aruz_classification_model_path = "aruzxrush.pt"  # Aruz classification model
- 
 
 # Load YOLOv8 models
 yolo_model = YOLO(yolo_model_path)  # YOLOv8 detection model
@@ -30,36 +29,28 @@ YOLO_CONFIDENCE_THRESHOLD = 0.87
 
 # Prediction function for YOLOv8
 def detect_with_yolo(img_path, model):
-    results = model.predict(img_path)  
-    predictions = results[0]  
-    if len(predictions.boxes) > 0:  
+    results = model.predict(img_path)
+    predictions = results[0]
+    if len(predictions.boxes) > 0:
         box = predictions.boxes[0]
         class_id = int(box.cls)
         confidence = box.conf.item()
         return class_id, confidence
-    return None, 0.0  
+    return None, 0.0
 
 def classify_car_model(img_path, model, classification_classes):
-    # Use YOLOv8's predict method directly for classification
-    results = model.predict(img_path)  
-
-    # Extract probabilities from results[0].probs
+    results = model.predict(img_path)
     probabilities = results[0].probs
-
-    # Convert `Probs` to a NumPy array or Tensor
-    if isinstance(probabilities, torch.Tensor):  
-        probabilities = probabilities.cpu().numpy()  
-    elif hasattr(probabilities, "data"):  
+    if isinstance(probabilities, torch.Tensor):
+        probabilities = probabilities.cpu().numpy()
+    elif hasattr(probabilities, "data"):
         probabilities = probabilities.data
-        if isinstance(probabilities, torch.Tensor):  
+        if isinstance(probabilities, torch.Tensor):
             probabilities = probabilities.cpu().numpy()
     else:
         raise ValueError(f"Unsupported probabilities type: {type(probabilities)}")
-
-    # Get the class with the highest probability
     class_idx = np.argmax(probabilities)
     confidence = probabilities[class_idx]
-
     return classification_classes[class_idx], confidence
 
 # Streamlit UI
@@ -71,7 +62,6 @@ st.set_page_config(
 
 st.title("🚗 Perodua Car Model Detector")
 st.subheader("Identify your Perodua car model using AI.")
-
 
 # Add instructions for the user
 st.subheader("Follow these steps to predict your Perodua Car Model:")
@@ -91,17 +81,37 @@ if uploaded_file is not None:
     with open(file_path, "wb") as f:
         f.write(uploaded_file.getbuffer())
 
-    # Resize and display the uploaded image
+    # Correct the orientation using EXIF data (if available)
     img = Image.open(uploaded_file)
-    img_resized = img.resize((224, 224))  # Resize the image for display
+    try:
+        for orientation in ExifTags.TAGS.keys():
+            if ExifTags.TAGS[orientation] == 'Orientation':
+                break
+        exif = img._getexif()
+        if exif is not None and orientation in exif:
+            if exif[orientation] == 3:
+                img = img.rotate(180, expand=True)
+            elif exif[orientation] == 6:
+                img = img.rotate(270, expand=True)
+            elif exif[orientation] == 8:
+                img = img.rotate(90, expand=True)
+    except (AttributeError, KeyError, IndexError):
+        pass
+
+    # Resize and display the corrected image
+    img_resized = img.resize((224, 224))
     st.image(img_resized, caption="Uploaded Image")
 
     # Predict button
     if st.button("🔍 Predict Car Model"):
-        st.markdown("<h4 style='color: #1abc9c;'>Analyzing the image...</h4>", unsafe_allow_html=True)
+        status_placeholder = st.empty()  # Create a placeholder for the status message
+        status_placeholder.markdown("<h4 style='color: #1abc9c;'>Analyzing the image...</h4>", unsafe_allow_html=True)
 
         # Detect with YOLOv8
         class_id, confidence = detect_with_yolo(file_path, yolo_model)
+
+        # Update the status to "Analyzed" after processing
+        status_placeholder.markdown("<h4 style='color: #1abc9c;'>Analyzed</h4>", unsafe_allow_html=True)
 
         if confidence < YOLO_CONFIDENCE_THRESHOLD:
             st.warning(f"⚠️ Detected as Unknown. Confidence level: {confidence * 100:.2f}%")
