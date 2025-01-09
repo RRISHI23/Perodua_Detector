@@ -74,7 +74,7 @@ st.subheader("Identify your Perodua car model using AI.")
 
 
 # Add instructions for the user
-st.header("Follow these steps to predict your Perodua Car Model:")
+st.subheader("Follow these steps to predict your Perodua Car Model:")
 st.write("1. **Click Browse files**")
 st.write("2. **Upload your preferred Perodua Car Model** (Alza, Aruz, Myvi, Axia, or Bezza)")
 st.write("3. **Click the Predict Car Model** button to get your prediction.")
