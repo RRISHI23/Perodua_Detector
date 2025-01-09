@@ -86,7 +86,7 @@ if uploaded_file is not None:
     # Resize and display the uploaded image
     img = Image.open(uploaded_file)
     img_resized = img.resize((224, 224))  # Resize the image for display
-    st.image(img_resized, caption="Uploaded Image", use_container_width=False)
+    st.image(img_resized, caption="Uploaded Image")
 
     # Predict button
     if st.button("🔍 Predict Car Model"):
