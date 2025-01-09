@@ -150,30 +150,59 @@ elif page == "Car Models":
     st.title("🚘 Perodua Car Models")
     models_info = {
         "Alza": (
-            "The Perodua Alza is a versatile family MPV designed for comfort and practicality. Known for its spacious interior, "
-            "it seats up to seven passengers, making it perfect for family trips. The Alza comes equipped with advanced safety "
-            "features such as ABS and EBD and offers a smooth and fuel-efficient drive."
+            "The Perodua Alza is a versatile family MPV (Multi-Purpose Vehicle) designed to provide comfort, "
+            "spaciousness, and practicality. Known for its modern design, the Alza comes equipped with a range "
+            "of advanced features that make it a preferred choice for families. Its roomy interior can "
+            "comfortably seat up to seven passengers, making it ideal for long drives and family outings. "
+            "The Alza boasts flexible seating arrangements, allowing users to fold seats to increase cargo space. "
+            "Additionally, it features cutting-edge safety systems such as ABS, EBD, and traction control, ensuring "
+            "a secure ride. Coupled with a fuel-efficient engine, the Alza strikes a perfect balance between "
+            "economy and performance. Whether for daily commutes or road trips, the Alza is built to deliver a "
+            "smooth and enjoyable driving experience."
         ),
         "Aruz": (
-            "The Perodua Aruz is a sporty SUV built for adventure. With a robust design, it handles both city roads and rough terrains "
-            "with ease. Offering spacious seating for seven, the Aruz includes features like Vehicle Stability Control and Hill Start Assist."
+            "The Perodua Aruz is a robust and sporty SUV that blends style, performance, and adventure. Its bold "
+            "design is matched with high ground clearance and durable engineering, making it suitable for both "
+            "urban and off-road environments. The Aruz is powered by an efficient and reliable engine that provides "
+            "excellent fuel economy despite its rugged nature. Inside, the Aruz offers spacious seating for seven, "
+            "making it a great choice for families and outdoor enthusiasts. It is packed with advanced features, "
+            "including digital infotainment, reverse cameras, and smart entry systems. Safety is also a priority, "
+            "with the Aruz boasting a 5-star ASEAN NCAP safety rating. Its advanced driver-assistance systems, such "
+            "as Hill Start Assist and Vehicle Stability Control, enhance confidence and control, even in challenging terrains."
         ),
         "Myvi": (
-            "The Perodua Myvi is Malaysia's favorite compact car. It combines fuel efficiency, practicality, and a stylish design. "
-            "Its compact size makes it ideal for city driving while still offering a comfortable interior for passengers."
+            "The Perodua Myvi is one of Malaysia’s most beloved cars, celebrated for its practicality, fuel efficiency, "
+            "and compact design. Perfect for city driving, the Myvi is highly maneuverable and easy to park in tight "
+            "spaces. Despite its compact size, it offers a surprisingly spacious interior with ample legroom and storage. "
+            "The Myvi comes with a sleek and aerodynamic exterior, making it visually appealing while improving its fuel "
+            "efficiency. It is also equipped with advanced technology features, including a digital infotainment system, "
+            "keyless entry, and a push-start button. Safety is at the forefront with features such as Advanced Safety Assist "
+            "(ASA), which includes pre-collision warning and braking. The Myvi is a perfect choice for young professionals, "
+            "students, and families seeking an affordable yet stylish car."
         ),
         "Axia": (
-            "The Perodua Axia is an affordable hatchback known for its exceptional fuel efficiency. Its compact design makes it "
-            "perfect for urban driving, while its modern features ensure a comfortable ride."
+            "The Perodua Axia is a compact hatchback designed to cater to the needs of urban drivers. As one of the most "
+            "affordable cars in the Perodua lineup, the Axia offers great value without compromising on quality. It is "
+            "powered by a fuel-efficient engine that ensures low running costs, making it ideal for budget-conscious users. "
+            "The Axia’s compact size makes it highly maneuverable, perfect for navigating through congested city streets and "
+            "parking in tight spaces. Despite its affordability, the Axia features modern amenities such as digital infotainment, "
+            "power windows, and central locking. Safety is also prioritized, with features like dual airbags, ABS, and EBD "
+            "available in higher trims. The Axia is perfect for first-time car owners and those seeking a reliable and practical vehicle."
         ),
         "Bezza": (
-            "The Perodua Bezza is a sleek sedan offering great mileage and comfort. With advanced safety features and ample trunk space, "
-            "it's a reliable choice for families and professionals alike."
+            "The Perodua Bezza is a stylish and fuel-efficient sedan designed to offer comfort and practicality. Its sleek "
+            "design and aerodynamic build contribute to its impressive fuel economy, making it a popular choice among "
+            "commuters. The Bezza’s spacious interior provides a comfortable ride for passengers, while its generous trunk "
+            "space makes it ideal for long trips and family outings. Equipped with advanced features such as keyless entry, "
+            "a multimedia infotainment system, and eco-driving indicators, the Bezza ensures a modern driving experience. "
+            "Safety is also a priority, with features like Vehicle Stability Control (VSC), Hill Start Assist, and a 5-star "
+            "ASEAN NCAP safety rating. The Bezza combines affordability, reliability, and style, making it an excellent choice "
+            "for individuals and families alike."
         ),
     }
 
     for model, description in models_info.items():
-        st.subheader(f"🚗 {model}")
+        st.subheader(f"{model}")
         st.write(description)
 
 elif page == "About Me":
@@ -205,3 +234,11 @@ elif page == "FAQs":
     st.write("   No, the app only supports one image upload at a time. Please upload images one by one.")
     st.write("6. **Why is the detected car model confidence level low?**")
     st.write("   A low confidence level can occur due to poor image quality, obstructed views, or untrained models.")
+    st.write("7. **Does the app work on mobile devices?**")
+    st.write("   Yes, the app is mobile-friendly and can be accessed from any browser on your mobile device.")
+    st.write("8. **How does the app work?**")
+    st.write("   The app uses the YOLOv8 deep learning model to detect and classify Perodua car models.")
+    st.write("9. **Is my data stored after uploading an image?**")
+    st.write("   No, the app does not store your images. Uploaded files are temporarily saved for prediction and then deleted.")
+    st.write("10. **Can I access this app without downloading files?**")
+    st.write("    Yes, you only need to access the app via the provided web link. No additional downloads are required.")
