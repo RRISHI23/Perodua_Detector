@@ -3,17 +3,18 @@ import os
 from PIL import Image
 from ultralytics import YOLO
 import numpy as np
-import torch  # Ensure PyTorch is imported
+import torch 
 
-# Paths to models
-yolo_model_path = 'C:/Users/Rrish/runs/detect/train5/weights/best.pt'  # YOLOv8 detection model
-alza_classification_model_path = "C:/Users/Rrish/OneDrive/Desktop/FYP/alzaxveloz.pt"  # Alza-specific classification model
-aruz_classification_model_path = "C:/Users/Rrish/OneDrive/Desktop/FYP/aruzxrush.pt"  # Aruz-specific classification model
+# Paths to models 
+yolo_model_path = "best.pt"  # YOLOv8 detection model
+alza_classification_model_path = "alzaxveloz.pt"  # Alza classification model
+aruz_classification_model_path = "aruzxrush.pt"  # Aruz classification model
+ 
 
 # Load YOLOv8 models
 yolo_model = YOLO(yolo_model_path)  # YOLOv8 detection model
-alza_classification_model = YOLO(alza_classification_model_path)  # Alza-specific classification model
-aruz_classification_model = YOLO(aruz_classification_model_path)  # Aruz-specific classification model
+alza_classification_model = YOLO(alza_classification_model_path)  # Alza classification model
+aruz_classification_model = YOLO(aruz_classification_model_path)  # Aruz classification model
 
 # Classes for YOLOv8 object detection
 YOLO_CLASSES = ['Alza', 'Aruz', 'Myvi', 'Axia', 'Bezza']
@@ -29,28 +30,28 @@ YOLO_CONFIDENCE_THRESHOLD = 0.87
 
 # Prediction function for YOLOv8
 def detect_with_yolo(img_path, model):
-    results = model.predict(img_path)  # Run inference
-    predictions = results[0]  # Get results for the first image
-    if len(predictions.boxes) > 0:  # If objects detected
+    results = model.predict(img_path)  
+    predictions = results[0]  
+    if len(predictions.boxes) > 0:  
         box = predictions.boxes[0]
         class_id = int(box.cls)
         confidence = box.conf.item()
         return class_id, confidence
-    return None, 0.0  # No detection with 0 confidence
+    return None, 0.0  
 
 def classify_car_model(img_path, model, classification_classes):
     # Use YOLOv8's predict method directly for classification
-    results = model.predict(img_path)  # YOLOv8 automatically processes the image
+    results = model.predict(img_path)  
 
     # Extract probabilities from results[0].probs
     probabilities = results[0].probs
 
     # Convert `Probs` to a NumPy array or Tensor
-    if isinstance(probabilities, torch.Tensor):  # Handle PyTorch tensor
-        probabilities = probabilities.cpu().numpy()  # Convert to NumPy
-    elif hasattr(probabilities, "data"):  # Handle Probs or similar object
+    if isinstance(probabilities, torch.Tensor):  
+        probabilities = probabilities.cpu().numpy()  
+    elif hasattr(probabilities, "data"):  
         probabilities = probabilities.data
-        if isinstance(probabilities, torch.Tensor):  # Convert if PyTorch tensor
+        if isinstance(probabilities, torch.Tensor):  
             probabilities = probabilities.cpu().numpy()
     else:
         raise ValueError(f"Unsupported probabilities type: {type(probabilities)}")
